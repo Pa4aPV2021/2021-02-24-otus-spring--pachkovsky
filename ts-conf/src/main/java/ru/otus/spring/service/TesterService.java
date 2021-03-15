@@ -1,9 +1,10 @@
 package ru.otus.spring.service;
 
-import ru.otus.spring.domain.Setting;
+import java.util.List;
+
+import ru.otus.spring.domain.Answer;
 
 public interface TesterService {
-	boolean takeTest(Setting settingTest);
-	int getNumberPointsScored();
+	List<Answer> takeTest();
 
 }

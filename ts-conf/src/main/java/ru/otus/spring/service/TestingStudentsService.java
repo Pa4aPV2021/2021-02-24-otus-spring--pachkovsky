@@ -1,56 +1,57 @@
 package ru.otus.spring.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
-import ru.otus.spring.domain.Setting;
+import ru.otus.spring.domain.Answer;
+import ru.otus.spring.domain.TestResultReport;
 import ru.otus.spring.domain.User;
 
 @Service
 public class TestingStudentsService {
 
 	private final AuthorizationService authorizationService;
-	private final TesterService testerService;
+	private final TesterService consoleTesterService;
 	private final ConsoleService consoleService;
-	private final SettingService settingService;
+	private final VerifyingService verifyingService;
 
-	public TestingStudentsService(AuthorizationService authorizationService, TesterService testerService,
-			ConsoleService consoleService, SettingService settingService) {
-		super();
-
+	public TestingStudentsService(AuthorizationService authorizationService, TesterService consoleTesterService,
+			ConsoleService consoleService, VerifyingService verifyingService) {
 		this.authorizationService = authorizationService;
-		this.testerService = testerService;
+		this.consoleTesterService = consoleTesterService;
 		this.consoleService = consoleService;
-		this.settingService = settingService;
+		this.verifyingService = verifyingService;
 
 	}
 
 	public void start() {
 		authorizationService.authorize();
-		Setting settingTest = settingService.findByLevelName(TestLvl.SIMPLE.name());
-		consoleService.requestForOutput(createStartTestInfo(settingTest, authorizationService.getAuthorizedUser()));
-		consoleService.requestForOutput(createRezultTestInfo(testerService.takeTest(settingTest), settingTest));
+		consoleService.requestForOutput(createStartTestInfo(authorizationService.getAuthorizedUser()));
+
+		List<Answer> blankAnswers = consoleTesterService.takeTest();
+		TestResultReport testResultReport = verifyingService.checkPassingTest(blankAnswers);
+
+		consoleService.requestForOutput(createRezultTestInfo(testResultReport));
 	}
 
-	private String createStartTestInfo(Setting settingTest, User authorizedUser) {
+	private String createStartTestInfo(User authorizedUser) {
 		StringBuilder rezultTestInfo = new StringBuilder("Тестируемый: " + authorizedUser.getName());
-		rezultTestInfo.append("\n");
-		rezultTestInfo.append("Уровень сложности:" + settingTest.getLevelName());
-		rezultTestInfo.append("\n");
-		rezultTestInfo.append("Требуемое количество балов: " + settingTest.getRequiredNumberResponses());
 		rezultTestInfo.append("\n");
 		rezultTestInfo.append("Начало теста");
 		rezultTestInfo.append("\n");
 		return rezultTestInfo.toString();
 	}
 
-	private String createRezultTestInfo(boolean isTakeTest, Setting settingTest) {
-		StringBuilder rezultTestInfo = new StringBuilder("Набранно балов: " + testerService.getNumberPointsScored());
+	private String createRezultTestInfo(TestResultReport testResultReport) {
+		StringBuilder rezultTestInfo = new StringBuilder(
+				"Требуется балов: " + testResultReport.getNumberRequiredAnswers());
+		rezultTestInfo.append("\n");
+		rezultTestInfo.append("Набранно балов: " + testResultReport.getNumberСorrectAnswers());
 		rezultTestInfo.append("\n");
 
-		if (isTakeTest) {
+		if (testResultReport.isTestPassed()) {
 			rezultTestInfo.append("Тест пройден");
-			rezultTestInfo.append("\n");
-			rezultTestInfo.append("Ваша награда: " + settingTest.getReward());
 		} else {
 			rezultTestInfo.append("Тест не пройден");
 		}
