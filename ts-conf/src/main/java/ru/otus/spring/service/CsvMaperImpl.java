@@ -30,18 +30,18 @@ public class CsvMaperImpl implements CsvMaper {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 			throw new RuntimeException(
-					"Не удолось преобразовать лист объектов из csv файла: не поддерживается кодировка", e);
+					"Failed to convert object sheet from csv file: encoding is not supported", e);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 			throw new RuntimeException(
-					"Не удолось преобразовать лист объектов из csv файла: строка не может быть проанализирована как ссылка URI.",
+					"Failed to convert object sheet from csv file: the string could not be parsed as a URI reference.",
 					e);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			throw new RuntimeException("Не удолось преобразовать лист объектов из csv файла: файл не найден", e);
+			throw new RuntimeException("Failed to convert object sheet from csv file: file not found", e);
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new RuntimeException("Не удолось преобразовать лист объектов из csv файла: неизвестная ошибка", e);
+			throw new RuntimeException("Failed to convert object sheet from CSV file: unknown error", e);
 		}
 
 		return result;
