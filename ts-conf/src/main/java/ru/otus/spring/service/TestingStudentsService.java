@@ -13,26 +13,26 @@ public class TestingStudentsService {
 
 	private final AuthorizationService authorizationService;
 	private final TesterService consoleTesterService;
-	private final ConsoleService consoleService;
+	private final OutputInputService outputInputService;
 	private final VerifyingService verifyingService;
 
 	public TestingStudentsService(AuthorizationService authorizationService, TesterService consoleTesterService,
-			ConsoleService consoleService, VerifyingService verifyingService) {
+			OutputInputService outputInputService, VerifyingService verifyingService) {
 		this.authorizationService = authorizationService;
 		this.consoleTesterService = consoleTesterService;
-		this.consoleService = consoleService;
+		this.outputInputService = outputInputService;
 		this.verifyingService = verifyingService;
 
 	}
 
 	public void start() {
 		authorizationService.authorize();
-		consoleService.requestForOutput(createStartTestInfo(authorizationService.getAuthorizedUser()));
+		outputInputService.requestForOutput(createStartTestInfo(authorizationService.getAuthorizedUser()));
 
 		List<Answer> blankAnswers = consoleTesterService.takeTest();
 		TestResultReport testResultReport = verifyingService.checkPassingTest(blankAnswers);
 
-		consoleService.requestForOutput(createRezultTestInfo(testResultReport));
+		outputInputService.requestForOutput(createRezultTestInfo(testResultReport));
 	}
 
 	private String createStartTestInfo(User authorizedUser) {

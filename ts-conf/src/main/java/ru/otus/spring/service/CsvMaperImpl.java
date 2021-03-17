@@ -23,8 +23,7 @@ public class CsvMaperImpl implements CsvMaper {
 		List<T> result = null;
 
 		try (CSVReader csvReader = new CSVReader(new InputStreamReader(
-				new FileInputStream(Paths.get(ClassLoader.getSystemResource(resursCsvPath).toURI()).toString()),
-				"UTF-8"))) {
+				new FileInputStream(Paths.get(ClassLoader.getSystemResource(resursCsvPath).toURI()).toString())))) {
 
 			result = new CsvToBean<T>().parse(createStrategy(toMapType, columns), csvReader);
 

@@ -8,10 +8,10 @@ import ru.otus.spring.domain.User;
 public class AuthorizationServiceImpl implements AuthorizationService  {
 
 	private User authorizedUser;
-	private final ConsoleServiceImpl consoleService;
+	private final OutputInputService outputInputService;
 
-	public AuthorizationServiceImpl(ConsoleServiceImpl consoleService) {
-		this.consoleService = consoleService;
+	public AuthorizationServiceImpl(OutputInputService outputInputService) {
+		this.outputInputService = outputInputService;
 	}
 
 	public User getAuthorizedUser() {
@@ -20,8 +20,8 @@ public class AuthorizationServiceImpl implements AuthorizationService  {
 
 	public void authorize() {
 
-		String name = consoleService.requestForInput("Enter your name: ");
-		String surname = consoleService.requestForInput("Enter your surname: ");
+		String name = outputInputService.requestForInput("Enter your name: ");
+		String surname = outputInputService.requestForInput("Enter your surname: ");
 		this.authorizedUser = new User(name, surname);
 
 	}

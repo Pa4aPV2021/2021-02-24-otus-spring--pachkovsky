@@ -1,6 +1,6 @@
 package ru.otus.spring.service;
 
-public interface ConsoleService {
+public interface OutputInputService {
 
 	public String requestForInput(String message);
 

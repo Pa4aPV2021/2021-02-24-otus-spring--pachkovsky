@@ -3,23 +3,18 @@ package ru.otus.spring.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import ru.otus.spring.domain.Answer;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.domain.TestResultReport;
 
-@PropertySource("classpath:application.properties")
 @Service
 public class VerifyingServiceImpl implements VerifyingService {
 	private final int requiredNumberResponses;
-	private final QuestionService questionService;
 
-	public VerifyingServiceImpl(@Value("${required.number.responses}") int requiredNumberResponses,
-			QuestionService questionService) {
+	public VerifyingServiceImpl(@Value("${required.number.responses}") int requiredNumberResponses) {
 		this.requiredNumberResponses = requiredNumberResponses;
-		this.questionService = questionService;
 	}
 
 	@Override
@@ -45,15 +40,12 @@ public class VerifyingServiceImpl implements VerifyingService {
 	private int count—orrectAnswers(List<Answer> blankAnswers) {
 		int number—orrectAnswers = 0;
 		for (Answer answer : blankAnswers) {
-
-	Question d = questionService.findById(answer.getIdQuestion());
-			if (answer.getAnswerText().toLowerCase()
-					.equals(d.getTrueAnswer().toLowerCase())) {
+			Question question = answer.getQuestion();
+			if (answer.getAnswerText().toLowerCase().equals(question.getTrueAnswer().toLowerCase())) {
 				number—orrectAnswers++;
 			}
 
 		}
-
 		return number—orrectAnswers;
 	}
 

@@ -7,7 +7,7 @@ import org.springframework.context.annotation.PropertySource;
 
 import ru.otus.spring.service.TestingStudentsService;
 
-
+@PropertySource("classpath:application.properties")
 @Configuration
 @ComponentScan
 public class Main {

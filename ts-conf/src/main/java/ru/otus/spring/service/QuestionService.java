@@ -6,5 +6,4 @@ import ru.otus.spring.domain.Question;
 
 public interface QuestionService {
 	List<Question> getAll();
-	Question findById(int id);
 }

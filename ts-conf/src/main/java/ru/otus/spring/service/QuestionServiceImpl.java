@@ -20,9 +20,4 @@ public class QuestionServiceImpl implements QuestionService {
 		return questionDao.findAll();
 	}
 
-	@Override
-	public Question findById(int id) {
-		return this.getAll().stream().filter(question -> question.getId() == id).findFirst().get();
-	}
-
 }

@@ -1,7 +1,6 @@
 package ru.otus.spring.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,13 +24,11 @@ public class VerifyingServiceImplTest {
 	@Mock
 	private QuestionDao questionDao;
 	@InjectMocks
-	private QuestionServiceImpl questionServiceImpl ;
-
-	List<Question> questions = new ArrayList<Question>(
-			Arrays.asList(new Question(1, "", "Молчание"), new Question(2, "", "Труд")));
+	private QuestionServiceImpl questionServiceImpl;
 
 	List<Answer> blankAnswers = new ArrayList<Answer>(
-			Arrays.asList(new Answer(1, "молчание"), new Answer(2, "неправельный ответ")));
+			Arrays.asList(new Answer(new Question(1, "", "Молчание"), "молчание"),
+					new Answer(new Question(2, "", "Труд"), "неправельный ответ")));
 
 	@DisplayName("Коректно проходит требования теста")
 	@Test
@@ -49,8 +46,7 @@ public class VerifyingServiceImplTest {
 	}
 
 	private TestResultReport checkPassingTestByRequired(int required) {
-		VerifyingServiceImpl verifyingServiceImpl = new VerifyingServiceImpl(required, questionServiceImpl);
-		given(questionServiceImpl.getAll()).willReturn(questions);
+		VerifyingService verifyingServiceImpl = new VerifyingServiceImpl(required);
 		return verifyingServiceImpl.checkPassingTest(this.blankAnswers);
 
 	}
