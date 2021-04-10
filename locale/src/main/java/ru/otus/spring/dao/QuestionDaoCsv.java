@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.service.CsvMaper;
+import ru.otus.spring.service.LocalProvader;
 
 @Repository
 public class QuestionDaoCsv implements QuestionDao {
@@ -18,7 +19,8 @@ public class QuestionDaoCsv implements QuestionDao {
 	private final String questionsCsvPathLocaleFormat;
 
 	public QuestionDaoCsv(@Value("${questions-csv-root-path}") String questionsCsvRootPath, CsvMaper csvMaperService,
-			Locale locale) {
+			LocalProvader localProvader) {
+		Locale locale = localProvader.getLocal();
 		this.csvMaperService = csvMaperService;
 		this.questionsCsvPathLocaleFormat = questionsCsvRootPath + "_" + locale.getCountry() + "-"
 				+ locale.getLanguage() + ".csv";

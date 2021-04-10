@@ -8,24 +8,16 @@ import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import ru.otus.spring.dao.QuestionDao;
 import ru.otus.spring.domain.Answer;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.domain.TestResultReport;
-import ru.otus.spring.service.QuestionServiceImpl;
 import ru.otus.spring.service.VerifyingService;
 import ru.otus.spring.service.VerifyingServiceImpl;
 
+@SpringBootTest
 public class VerifyingServiceImplTest {
-
-	@Mock
-	private QuestionDao questionDao;
-	@InjectMocks
-	private QuestionServiceImpl questionServiceImpl;
 
 	List<Answer> blankAnswers = new ArrayList<Answer>(
 			Arrays.asList(new Answer(new Question(1, "", "Молчание"), "молчание"),
@@ -47,9 +39,10 @@ public class VerifyingServiceImplTest {
 	}
 
 	private TestResultReport checkPassingTestByRequired(int required) {
-		VerifyingService verifyingServiceImpl = new VerifyingServiceImpl(required);
+		VerifyingService verifyingServiceImpl = new VerifyingServiceImpl(required); // вы говорите без new, тогда не
+																					// понимаю как сделать тесты с двумя
+																					// разными требованиями
 		return verifyingServiceImpl.checkPassingTest(this.blankAnswers);
-
 	}
 
 }

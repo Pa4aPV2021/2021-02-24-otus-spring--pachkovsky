@@ -3,3 +3,5 @@ spring:
     basename: i18n/messages
 required-number-responses: 5
 questions-csv-root-path: questions
+language: ru
+country: ru
