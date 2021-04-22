@@ -1,0 +1,11 @@
+spring:
+  messages:
+    basename: i18n/messages
+  shell:
+    interactive:
+      enabled: false 
+
+required-number-responses: 5
+questions-csv-root-path: questions
+language: ru
+country: ru
