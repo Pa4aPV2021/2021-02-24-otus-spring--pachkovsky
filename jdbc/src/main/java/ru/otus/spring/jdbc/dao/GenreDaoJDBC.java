@@ -19,38 +19,13 @@ public class GenreDaoJDBC implements GenreDao {
 	}
 
 	@Override
-	public int count() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public Genre create(Genre createdGenre) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Genre update(Genre updatedGenre) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<Genre> findAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void delete(Long id) {
-		// TODO Auto-generated method stub
-
+		return jdbc.query("select id, name from genre", this::mapRow);
 	}
 
 	@Override
 	public Genre findOne(Long id) {
-		return jdbc.queryForObject("select * from genre where id = :id", Map.of("id", id), this::mapRow);
+		return jdbc.queryForObject("select id, name from genre where id = :id", Map.of("id", id), this::mapRow);
 	}
 
 	private Genre mapRow(ResultSet rs, int rowNum) throws SQLException {

@@ -19,38 +19,13 @@ public class AuthorDaoJDBC implements AuthorDao {
 	}
 
 	@Override
-	public int count() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public Author create(Author createdAuthor) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Author update(Author updatedAuthor) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<Author> findAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void delete(Long id) {
-		// TODO Auto-generated method stub
-
+		return jdbc.query("select id, name from author", this::mapRow);
 	}
 
 	@Override
 	public Author findOne(Long id) {
-		return jdbc.queryForObject("select * from author where id = :id", Map.of("id", id), this::mapRow);
+		return jdbc.queryForObject("select id, name from author where id = :id", Map.of("id", id), this::mapRow);
 	}
 
 	private Author mapRow(ResultSet rs, int rowNum) throws SQLException {
