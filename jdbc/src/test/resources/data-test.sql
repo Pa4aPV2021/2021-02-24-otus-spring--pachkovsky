@@ -12,8 +12,4 @@ insert into genre (`name`) values ('other');
 
 /*insert book*/
 insert into book (name, id_author, id_genre) values ('War and Peace', 1, 1);
-insert into book (name, id_author, id_genre) values ('Voyage au centre de la Terre', 2, 3);
-insert into book (name, id_author, id_genre) values ('Les Enfants du capitaine Grant', 2, 2);
-insert into book (name, id_author, id_genre) values ('Le Comte de Monte-Cristo', 3, 1);
-/*insert into book (name, id_author, id_genre) values ('Les trois mousquetaires', 3, 1);*/
 

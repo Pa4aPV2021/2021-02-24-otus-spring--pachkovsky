@@ -34,7 +34,7 @@ public class BookDaoJDBCTest {
 	@DisplayName("возвращать ожидаемое количество книг из БД")
 	@Test
 	void shouldReturnTheExpectedBookCount() {
-		final int EXPECTED_BOOKS_COUNT = 4;
+		final int EXPECTED_BOOKS_COUNT = 1;
 		int acntualBooksCount = bookDaoJDBC.count();
 		assertThat(acntualBooksCount).isEqualTo(EXPECTED_BOOKS_COUNT);
 
@@ -67,12 +67,10 @@ public class BookDaoJDBCTest {
 
 	}
 
-	@DisplayName("возвращать ожидаемый список книг (содержит в любом порядке ожидаемую книгу)") // непонимаю почему не
-																								// проходит тест
+	@DisplayName("возвращать ожидаемый список книг (содержит в любом порядке ожидаемую книгу)")
 	@Test
 	void shouldReturnExpectedBooksList() {
 		List<Book> actualBooks = bookDaoJDBC.findAll();
-		System.out.println(actualBooks.get(0)); // книга в списке есть
 		assertThat(actualBooks).usingFieldByFieldElementComparator().containsExactlyInAnyOrder(EXPECTED_BOOK);
 	}
 

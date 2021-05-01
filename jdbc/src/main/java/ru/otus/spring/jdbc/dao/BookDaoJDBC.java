@@ -2,12 +2,10 @@ package ru.otus.spring.jdbc.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -22,13 +20,9 @@ import ru.otus.spring.jdbc.domain.Genre;
 public class BookDaoJDBC implements BookDao {
 
 	private final NamedParameterJdbcOperations jdbc;
-	private final GenreDao genreDao;
-	private final AuthorDao authorDao;
 
-	public BookDaoJDBC(NamedParameterJdbcOperations jdbcOperations, GenreDao genreDao, AuthorDao authorDao) {
+	public BookDaoJDBC(NamedParameterJdbcOperations jdbcOperations) {
 		this.jdbc = jdbcOperations;
-		this.genreDao = genreDao;
-		this.authorDao = authorDao;
 	}
 
 	@Override
@@ -59,7 +53,11 @@ public class BookDaoJDBC implements BookDao {
 	@Override
 	public List<Book> findAll() {
 
-		return jdbc.query("select id, name, id_author, id_genre from book", this::extractData);
+		return jdbc.query(
+				"SELECT b.id, b.name as book_name, id_author, a.name as author_name, id_genre, g.name as genre_name"
+						+ "	FROM public.book as b" + "	join genre as g on (b.id_genre=g.id)"
+						+ "	join author as a on (b.id_author=a.id)",
+				this::mapRow);
 	}
 
 	@Override
@@ -69,29 +67,20 @@ public class BookDaoJDBC implements BookDao {
 
 	@Override
 	public Book findOne(Long id) {
-		return jdbc.queryForObject("select id, name, id_author, id_genre from book where id = :id", Map.of("id", id),
-				this::mapRow);
+		return jdbc.queryForObject(
+				"SELECT b.id, b.name as book_name, id_author, a.name as author_name, id_genre, g.name as genre_name"
+						+ "	FROM public.book as b" + "	join genre as g on (b.id_genre=g.id)"
+						+ "	join author as a on (b.id_author=a.id) where b.id = :id",
+				Map.of("id", id), this::mapRow);
 	}
 
 	private Book mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Book book = new Book();
 		book.setId(rs.getLong("id"));
-		book.setName(rs.getString("name"));
-		book.setAuthor(this.authorDao.findOne(rs.getLong("id_author")));
-		book.setGenre(this.genreDao.findOne(rs.getLong("id_genre")));
+		book.setName(rs.getString("book_name"));
+		book.setAuthor(new Author(rs.getLong("id_author"), rs.getString("author_name")));
+		book.setGenre(new Genre(rs.getLong("id_genre"), rs.getString("genre_name")));
 		return book;
-	}
-
-	private List<Book> extractData(ResultSet rs) throws SQLException, DataAccessException {
-		Map<Long, Author> authorsMap = this.authorDao.findAll().stream()
-				.collect(Collectors.toMap(Author::getId, a -> a));
-		Map<Long, Genre> genresMap = this.genreDao.findAll().stream().collect(Collectors.toMap(Genre::getId, g -> g));
-		List<Book> books = new ArrayList<Book>();
-		while (rs.next()) {
-			books.add(new Book(rs.getLong("id"), rs.getString("name"), authorsMap.get(rs.getLong("id_author")),
-					genresMap.get(rs.getLong("id_genre"))));
-		}
-		return books;
 	}
 
 }
