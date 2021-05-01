@@ -9,6 +9,9 @@ public class Genre {
 
 	public Genre() {
 	}
+	public Genre(Long id) {
+		this.id = id;
+	}
 
 	public Genre(Long id, String name) {
 		this.id = id;

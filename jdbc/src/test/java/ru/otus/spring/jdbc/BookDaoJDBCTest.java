@@ -13,16 +13,14 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.dao.EmptyResultDataAccessException;
 
-import ru.otus.spring.jdbc.dao.AuthorDaoJDBC;
 import ru.otus.spring.jdbc.dao.BookDaoJDBC;
-import ru.otus.spring.jdbc.dao.GenreDaoJDBC;
 import ru.otus.spring.jdbc.domain.Author;
 import ru.otus.spring.jdbc.domain.Book;
 import ru.otus.spring.jdbc.domain.Genre;
 
 @DisplayName("Dao для работы с книгами должно")
 @JdbcTest
-@Import({ BookDaoJDBC.class, GenreDaoJDBC.class, AuthorDaoJDBC.class })
+@Import({ BookDaoJDBC.class})
 public class BookDaoJDBCTest {
 
 	private static final Book EXPECTED_BOOK = new Book((long) 1, "War and Peace", new Author((long) 1, "L.N. Tolstoy"),

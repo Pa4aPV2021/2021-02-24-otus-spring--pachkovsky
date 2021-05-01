@@ -5,6 +5,7 @@ import java.util.List;
 import ru.otus.spring.jdbc.domain.Book;
 
 public interface BookDao {
+	
 	Book create(Book createdBook);
 
 	void update(Book updatedBook);

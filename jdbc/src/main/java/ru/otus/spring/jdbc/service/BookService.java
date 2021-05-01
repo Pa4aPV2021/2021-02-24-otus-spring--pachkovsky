@@ -6,8 +6,6 @@ import ru.otus.spring.jdbc.domain.Book;
 
 public interface BookService {
 
-	int count();
-
 	Book update(Long id, String name, Long id_author, Long id_genre);
 
 	List<Book> findAll();
