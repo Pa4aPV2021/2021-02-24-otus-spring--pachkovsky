@@ -1,10 +1,3 @@
 spring:
-  messages:
-    basename: i18n/messages
   datasource:
     url: jdbc:h2:mem:testdb
-
-
-
-language: en
-country: us

@@ -55,8 +55,8 @@ public class BookDaoJDBC implements BookDao {
 
 		return jdbc.query(
 				"SELECT b.id, b.name as book_name, id_author, a.name as author_name, id_genre, g.name as genre_name"
-						+ "	FROM public.book as b" + "	join genre as g on (b.id_genre=g.id)"
-						+ "	join author as a on (b.id_author=a.id)",
+						+ "	FROM public.book as b" + " inner	join genre as g on (b.id_genre=g.id)"
+						+ " inner join author as a on (b.id_author=a.id)",
 				this::mapRow);
 	}
 
@@ -69,8 +69,8 @@ public class BookDaoJDBC implements BookDao {
 	public Book findOne(Long id) {
 		return jdbc.queryForObject(
 				"SELECT b.id, b.name as book_name, id_author, a.name as author_name, id_genre, g.name as genre_name"
-						+ "	FROM public.book as b" + "	join genre as g on (b.id_genre=g.id)"
-						+ "	join author as a on (b.id_author=a.id) where b.id = :id",
+						+ "	FROM public.book as b" + " inner join genre as g on (b.id_genre=g.id)"
+						+ " inner join author as a on (b.id_author=a.id) where b.id = :id",
 				Map.of("id", id), this::mapRow);
 	}
 
