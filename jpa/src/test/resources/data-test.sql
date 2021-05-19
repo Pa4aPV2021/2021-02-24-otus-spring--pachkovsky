@@ -12,4 +12,10 @@ insert into genre (`name`) values ('other');
 
 /*insert book*/
 insert into book (name, id_author, id_genre) values ('War and Peace', 1, 1);
+insert into book (name, id_author, id_genre) values ('Voyage au centre de la Terre', 2, 3);
+
+/*insert comment*/
+insert into comments (text, id_book) values ('wow', 1);
+insert into comments (text, id_book) values ('woooooow!!', 1);
+insert into comments (text, id_book) values ('fie', 2);
 

@@ -9,8 +9,6 @@ import org.springframework.shell.standard.ShellOption;
 import ru.otus.spring.jpa.domain.Book;
 import ru.otus.spring.jpa.service.BookService;
 
-
-
 @ShellComponent
 public class BookEventsCommands {
 

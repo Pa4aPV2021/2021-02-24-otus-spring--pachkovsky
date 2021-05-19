@@ -7,13 +7,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
 
 import ru.otus.spring.jpa.domain.Book;
 
-@Transactional
 @Repository
 public class BookDaoJPA implements BookDao {
 
@@ -23,7 +21,6 @@ public class BookDaoJPA implements BookDao {
 	@Override
 	public Book create(Book createdBook) {
 		em.persist(createdBook);
-		System.out.println(createdBook.getId());
 		return createdBook;
 	}
 
@@ -34,7 +31,8 @@ public class BookDaoJPA implements BookDao {
 
 	@Override
 	public List<Book> findAll() {
-		TypedQuery<Book> query = em.createQuery("select b from Book b join fetch b.author join fetch b.genre",
+		TypedQuery<Book> query = em.createQuery(
+				"select b from Book b inner join fetch b.author inner join fetch b.genre ",
 				Book.class);
 		return query.getResultList();
 	}
@@ -44,11 +42,11 @@ public class BookDaoJPA implements BookDao {
 		Query query = em.createQuery("delete from Book b where b.id = :id");
 		query.setParameter("id", id);
 		query.executeUpdate();
-		em.clear();
 	}
 
 	@Override
 	public Optional<Book> findOne(Long id) {
+
 		return Optional.ofNullable(em.find(Book.class, id));
 	}
 
