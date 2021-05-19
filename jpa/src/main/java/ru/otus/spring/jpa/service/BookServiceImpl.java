@@ -19,11 +19,13 @@ public class BookServiceImpl implements BookService {
 		this.bookDaо = bookDaо;
 	}
 
+	@Transactional
 	@Override
 	public Book create(String name, Long id_author, Long id_genre) {
 		return bookDaо.create(new Book(name, new Author(id_author), new Genre(id_genre)));
 	}
 
+	@Transactional
 	@Override
 	public Book update(Long id, String name, Long idAuthor, Long idGenre) {
 		Book oldBook = this.findOne(id);
