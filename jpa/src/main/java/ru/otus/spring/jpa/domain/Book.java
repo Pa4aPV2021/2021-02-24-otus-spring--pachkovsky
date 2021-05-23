@@ -1,7 +1,10 @@
 package ru.otus.spring.jpa.domain;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,18 +24,28 @@ public class Book {
 	private Long id;
 	@Column(name = "name")
 	private String name;
-	@ManyToOne
+	@ManyToOne(targetEntity = Author.class, cascade = {}, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_author")
 	private Author author;
-	@ManyToOne
+	@ManyToOne(targetEntity = Genre.class, cascade = {}, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_genre")
 	private Genre genre;
 
 	public Book() {
 	}
 
+	public Book(Long id) {
+		this.id = id;
+	}
+
 	public Book(Long id, String name, Author author, Genre genre) {
 		this.id = id;
+		this.name = name;
+		this.author = author;
+		this.genre = genre;
+	}
+
+	public Book(String name, Author author, Genre genre, List<Comment> comments) {
 		this.name = name;
 		this.author = author;
 		this.genre = genre;

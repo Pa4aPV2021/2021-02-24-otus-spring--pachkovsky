@@ -6,7 +6,7 @@ import ru.otus.spring.jpa.domain.Book;
 
 public interface BookService {
 
-	Book update(Long id, String name, Long id_author, Long id_genre);
+	Book update(Long id, String name, Long idAuthor, Long idGenre);
 
 	List<Book> findAll();
 
@@ -14,6 +14,7 @@ public interface BookService {
 
 	Book findOne(Long id);
 
-	Book create(String name, Long id_author, Long id_genre);
+	Book create(String name, Long idAuthor, Long idGenre);
+
 
 }

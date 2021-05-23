@@ -17,3 +17,10 @@ insert into book (name, id_author, id_genre) values ('Les Enfants du capitaine G
 insert into book (name, id_author, id_genre) values ('Le Comte de Monte-Cristo', 3, 1);
 insert into book (name, id_author, id_genre) values ('Les trois mousquetaires', 3, 1);
 
+/*insert comments*/
+insert into comments (text, id_book) values ('wow', 1);
+insert into comments (text, id_book) values ('woooooow!!', 1);
+insert into comments (text, id_book) values ('fie', 2);
+
+
+
