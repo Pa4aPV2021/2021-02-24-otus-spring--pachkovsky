@@ -61,13 +61,25 @@ public class CommentDaoJPATest {
 
 	@DisplayName("удалять заданный комментарий по ИД")
 	@Test
-	void shouldCorrectDeleteBookById() {
+	void shouldCorrectDeleteCommentById() {
 		val firstComment = em.find(Comment.class, FIRST_COMMENT_ID);
 		assertThat(firstComment).isNotNull();
 		em.detach(firstComment);
 		commentDaoJPA.delete(FIRST_COMMENT_ID);
 		val deletedComment = em.find(Comment.class, FIRST_COMMENT_ID);
 		assertThat(deletedComment).isNull();
+	}
+	
+	
+	@DisplayName("не удалять книгу при удалении комента")
+	@Test
+	void shouldNotDeleteBookWhenDeletingComment() {
+		var commentForRemove = em.find(Comment.class, FIRST_COMMENT_ID);
+		var commentBookId = commentForRemove.getBook().getId();
+		em.remove(commentForRemove);
+		em.flush();
+		Book book = em.find(Book.class, commentBookId);
+		assertThat(book).isNotNull();
 	}
 
 }

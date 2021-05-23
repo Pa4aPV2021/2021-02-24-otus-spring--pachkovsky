@@ -1,6 +1,5 @@
 package ru.otus.spring.jpa.domain;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -23,7 +22,7 @@ public class Comment {
 	private Long id;
 	@Column(name = "text")
 	private String text;
-	@ManyToOne(targetEntity = Book.class, cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+	@ManyToOne(targetEntity = Book.class, cascade = {}, fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_book")
 	private Book book;
 
