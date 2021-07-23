@@ -18,7 +18,7 @@ body {
 	<h1>Books:</h1>
 
 
-	<a th:href="@{/create}" href="create.html">Create new book</a>
+	<a th:href="@{/book/create}" href="create.html">Create new book</a>
 	<table class="books">
 		<thead>
 			<tr>
@@ -35,10 +35,10 @@ body {
 				<td th:text="${book.name}">John Doe</td>
 				<td th:text="${book.author.name}">John Doe</td>
 				<td th:text="${book.genre.name}">John Doe</td>
-				<td><a th:href="@{/edit(id=${book.id})}" href="edit.html">Edit</a>
+				<td><a th:href="@{/book/edit(id=${book.id})}" href="edit.html">Edit</a>
 				</td>
 				<td>
-					<form th:action="@{/delete(id=${book.id})}" th:method="post">
+					<form th:action="@{/book/delete(id=${book.id})}" th:method="post">
 						<div class="row">
 							<button type="submit">Delete</button>
 						</div>

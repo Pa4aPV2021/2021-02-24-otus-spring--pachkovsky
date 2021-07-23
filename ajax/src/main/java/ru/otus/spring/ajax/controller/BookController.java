@@ -5,9 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import ru.otus.spring.ajax.domain.Book;
 import ru.otus.spring.ajax.service.AuthorService;
@@ -28,14 +30,14 @@ public class BookController {
 		this.genreService = genreService;
 	}
 
-	@GetMapping("/")
+	@GetMapping("/book")
 	public String listPage(Model model) {
 		List<Book> books = bookService.findAll();
 		model.addAttribute("books", books);
 		return "book";
 	}
 
-	@GetMapping("/edit")
+	@GetMapping("/book/edit")
 	public String editPage(@RequestParam("id") Long id, Model model) {
 		model.addAttribute("book", bookService.findById(id));
 		model.addAttribute("authors", authorService.findAll());
@@ -43,34 +45,28 @@ public class BookController {
 		return "edit";
 	}
 
-	@GetMapping("/create")
+	@GetMapping("/book/create")
 	public String createPage(Model model) {
 		model.addAttribute("authors", authorService.findAll());
 		model.addAttribute("genres", genreService.findAll());
 		return "create";
 	}
 
-	@PostMapping("/edit")
-	public String editBook(Long id, Book updatedbook, Model model) {
-		model.addAttribute("book", bookService.update(updatedbook));
-		List<Book> books = bookService.findAll();
-		model.addAttribute("books", books);
-		return "book";
+	@PostMapping("/book/edit")
+	public String editBook(Long id, Book updatedbook) {
+		bookService.update(updatedbook);
+		return "redirect:/book";
 	}
 
-	@PostMapping("/delete")
-	public String editBook(Long id, Model model) {
-		System.out.println(id);
+	@PostMapping("/book/delete")
+	public String editBook(Long id) {
 		bookService.deleteById(id);
-		model.addAttribute("books", bookService.findAll());
-		return "book";
+		return "redirect:/book";
 	}
 
-	@PostMapping("/create")
-	public String createBook(Book createdbook, Model model) {
-		model.addAttribute("book", bookService.create(createdbook));
-		List<Book> books = bookService.findAll();
-		model.addAttribute("books", books);
-		return "book";
+	@PostMapping("/book/create")
+	public String createBook(Book createdbook) {
+		bookService.create(createdbook);
+		return "redirect:/book";
 	}
 }

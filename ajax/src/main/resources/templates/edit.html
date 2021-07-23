@@ -26,7 +26,7 @@ input:read-only {
 
 	<form th:object="${book}" id="
 		book-edit-form"
-		th:action="@{/edit(id=${book.id})}" th:method="post" action="book.html">
+		th:action="@{/book/edit(id=${book.id})}" th:method="post" action="book.html">
 		<h1>Book update:</h1>
 
 		<div class="row">

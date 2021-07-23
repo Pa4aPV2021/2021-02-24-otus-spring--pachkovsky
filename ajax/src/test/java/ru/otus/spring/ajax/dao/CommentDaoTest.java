@@ -1,4 +1,4 @@
-package ru.otus.spring.ajax;
+package ru.otus.spring.ajax.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
