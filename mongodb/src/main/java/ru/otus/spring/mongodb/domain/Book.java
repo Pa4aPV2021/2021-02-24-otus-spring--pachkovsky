@@ -13,7 +13,6 @@ import lombok.Data;
 @Document(collection = "books")
 public class Book {
 	@Id
-	@Field(name = "id")
 	private String id;
 	@Field(name = "name")
 	private String name;
@@ -21,6 +20,9 @@ public class Book {
 	private Author author;
 	@DBRef
 	private Genre genre;
+
+	@DBRef
+	private List<Comment> comments;
 
 	public Book() {
 	}
@@ -33,6 +35,7 @@ public class Book {
 		this.name = name;
 		this.author = author;
 		this.genre = genre;
+		this.comments = comments;
 	}
 
 	public Book(String name, Author author, Genre genre) {

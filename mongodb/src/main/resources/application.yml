@@ -1,11 +1,8 @@
 spring:
   data:
     mongodb:
-      authentication-database: none
-      database: testdb
-      port: 27017
-      host: localhost
+      uri: mongodb://localhost:27017/work
 mongock:
-  runner-type: "InitializingBean" 
+  runner-type: InitializingBean
   change-logs-scan-package:
-  - ru.otus.spring.springdata.changelogs
+  - ru.otus.spring.mongodb.changelogs

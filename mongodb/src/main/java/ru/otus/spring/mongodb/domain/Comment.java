@@ -1,6 +1,5 @@
 package ru.otus.spring.mongodb.domain;
 
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,7 +11,6 @@ import lombok.Data;
 @Document(collection = "comments")
 public class Comment {
 	@Id
-	@Field(name = "id")
 	private String id;
 	@Field(name = "text")
 	private String text;
@@ -20,6 +18,10 @@ public class Comment {
 	private Book book;
 
 	public Comment() {
+	}
+
+	public Comment(String text) {
+		this.text = text;
 	}
 
 	public Comment(String text, Book book) {
@@ -66,7 +68,7 @@ public class Comment {
 
 	@Override
 	public String toString() {
-		return "Comment [id=" + id + ", text=" + text + ", book=" + book + "]";
+		return "Comment [id=" + id + ", text=" + text + ", book=" + book.getId() + "]";
 	}
 
 }

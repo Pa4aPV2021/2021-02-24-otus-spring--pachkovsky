@@ -12,7 +12,6 @@ import lombok.Data;
 public class Author {
 
 	@Id
-	@Field(name = "id")
 	private String id;
 	@Field(name = "name")
 	private String name;

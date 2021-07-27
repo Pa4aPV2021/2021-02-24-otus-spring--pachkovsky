@@ -6,5 +6,7 @@ import ru.otus.spring.mongodb.domain.Book;
 
 
 
-public interface BookDao extends MongoRepository<Book, String> {
+public interface BookDao extends MongoRepository<Book, String>, BookDaoCustom {
+
+	
 }

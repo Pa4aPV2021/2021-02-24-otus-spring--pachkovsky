@@ -10,7 +10,6 @@ import lombok.Data;
 @Document(collection = "genrees")
 public class Genre {
 	@Id
-	@Field(name = "id")
 	private String id;
 	@Field(name = "name")
 	private String name;

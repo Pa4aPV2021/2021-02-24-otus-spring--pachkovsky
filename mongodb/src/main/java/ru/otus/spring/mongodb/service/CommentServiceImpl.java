@@ -2,27 +2,27 @@ package ru.otus.spring.mongodb.service;
 
 import java.util.List;
 
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ru.otus.spring.mongodb.dao.CommentDao;
-import ru.otus.spring.mongodb.domain.Book;
 import ru.otus.spring.mongodb.domain.Comment;
 
 @Service
 public class CommentServiceImpl implements CommentService {
 
 	private final CommentDao commentDao;
+	private final BookService bookService;
 
-	public CommentServiceImpl(CommentDao commentDao) {
+	public CommentServiceImpl(CommentDao commentDao, BookService bookService) {
 		this.commentDao = commentDao;
+		this.bookService = bookService;
 	}
 
 	@Transactional
 	@Override
 	public Comment createForBook(String idBook, String textComment) {
-		return commentDao.save(new Comment(textComment, new Book(idBook)));
+		return commentDao.save(new Comment(textComment, bookService.findById(idBook)));
 	}
 
 	@Transactional

@@ -1,0 +1,15 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/test
+mongock:
+  runner-type: InitializingBean
+  change-logs-scan-package:
+  - ru.otus.spring.mongodb.changelogs
+  mongo-db:
+    write-concern:
+      journal: false
+    read-concern: local
+logging:
+  level:
+    root: ERROR
