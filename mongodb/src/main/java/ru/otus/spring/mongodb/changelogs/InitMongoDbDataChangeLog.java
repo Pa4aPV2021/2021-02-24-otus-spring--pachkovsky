@@ -1,7 +1,5 @@
 package ru.otus.spring.mongodb.changelogs;
 
-import java.util.Arrays;
-
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import com.mongodb.client.MongoDatabase;
@@ -20,7 +18,6 @@ public class InitMongoDbDataChangeLog {
 
 	private Author tolstoyAuthor;
 	private Genre novelGenre;
-	private Book warAndPeaceBook;
 
 	@ChangeSet(order = "000", id = "dropDB", author = "PV", runAlways = true)
 	public void dropDB(MongoDatabase mongoDatabase) {
@@ -39,22 +36,21 @@ public class InitMongoDbDataChangeLog {
 		genreDao.save(new Genre("adventures"));
 	}
 
-	@ChangeSet(order = "003", id = "addBooks", author = "PV", runAlways = true)
-	public void insertBooks(BookDao bookDao) {
-		this.warAndPeaceBook = bookDao.save(new Book("War and Peace", tolstoyAuthor, novelGenre));
+//	для удовлетворения двунаправленной связи добавил метод addComment, это правильно?
+	@ChangeSet(order = "003", id = "insertBookWithComments", author = "PV", runAlways = true)
+	public void insertBookWithComments(BookDao bookDao, CommentDao commentDao) {
+		var bookTwoWithOneComment = bookDao.save(new Book("bookTwoWithOneComment", tolstoyAuthor, novelGenre));
+		bookTwoWithOneComment.addComment(commentDao.save(new Comment("commentThreeInBookTwo", bookTwoWithOneComment)));
 	}
 
-	@ChangeSet(order = "004", id = "addCommentss", author = "PV", runAlways = true)
-	public void insertCommentss(CommentDao commentDao) {
-		commentDao.save(new Comment("one-comment", warAndPeaceBook));
+	@ChangeSet(order = "004", id = "insertCommentsWithBook", author = "PV", runAlways = true)
+	public void insertCommentsWithBook(BookDao bookDao, CommentDao commentDao) {
+		Book bookOneWithTwoComment = new Book("bookOneWithTwoComment", tolstoyAuthor, novelGenre);
+		var commentOneInBookOne = new Comment("commentOneInBookOne");
+		var commentTwoInBookOne = new Comment("commentTwoInBookOne");
+		bookOneWithTwoComment.addComment(commentDao.save(commentOneInBookOne));
+		bookOneWithTwoComment.addComment(commentDao.save(commentTwoInBookOne));
+		bookDao.save(bookOneWithTwoComment);
 	}
 
-	@ChangeSet(order = "005", id = "addBooksWithComment", author = "PV", runAlways = true)
-	public void insertBooksWithComment(CommentDao commentDao, BookDao bookDao) {
-		var commentInBookOne = commentDao.save(new Comment("comment-one-in-book-with-Comments"));
-		var commentInBookTwo = commentDao.save(new Comment("comment-two-in-book-with-Comments"));
-		var bookWithCommentList = new Book("book-with-comment-list", tolstoyAuthor, novelGenre,
-				Arrays.asList(commentInBookOne, commentInBookTwo));
-		bookDao.save(bookWithCommentList);
-	}
 }

@@ -1,5 +1,6 @@
 package ru.otus.spring.mongodb.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -36,12 +37,23 @@ public class Book {
 		this.author = author;
 		this.genre = genre;
 		this.comments = comments;
+		this.comments.stream().forEach(commente -> commente.getBook().getComments().add(commente));
 	}
 
 	public Book(String name, Author author, Genre genre) {
 		this.name = name;
 		this.author = author;
 		this.genre = genre;
+	}
+
+	public void addComment(Comment comment) {
+
+		if (comments == null) {
+			comments = new ArrayList<Comment>();
+		}
+
+		comments.add(comment);
+		comment.setBook(this);
 	}
 
 	@Override

@@ -14,12 +14,12 @@ public class MongoBookCascadeDeleteEventsListener extends AbstractMongoEventList
 
 	private final BookDao bookDao;
 
-	@Override
-	public void onBeforeDelete(BeforeDeleteEvent<Book> event) {
-		super.onBeforeDelete(event);
-		var source = event.getSource();
-		var id = source.get("_id").toString();
-		bookDao.removeCommentsForBookByBookId(id);
-	}
+//	@Override
+//	public void onBeforeDelete(BeforeDeleteEvent<Book> event) {
+//		super.onBeforeDelete(event);
+//		var source = event.getSource();
+//		var id = source.get("_id").toString();
+//		bookDao.removeCommentsForBookByBookId(id);
+//	}
 
 }

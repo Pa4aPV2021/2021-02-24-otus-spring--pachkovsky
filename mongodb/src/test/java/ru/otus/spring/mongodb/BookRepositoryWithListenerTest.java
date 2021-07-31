@@ -36,19 +36,19 @@ public class BookRepositoryWithListenerTest {
 		val id_book = bookDao.findAll().get(0).getId();
 
 		// Загрузка коментов книги и сохранение их количества
-		var beforeSizeСomments = commentDao.findByBook_Id(id_book).size();
+		var beforeSizeComments = commentDao.findByBook_Id(id_book).size();
 
 		// Проверяем есть ли коменты
-		assertThat(beforeSizeСomments).isNotEqualTo(0).as("У книги нет комментариев. Продолжение теста невозможно");
+		assertThat(beforeSizeComments).isNotEqualTo(0).as("У книги нет комментариев. Продолжение теста невозможно");
 
 		// Удаляем книгу и инициализируем удаление коммента
 		bookDao.deleteById(id_book);
 
 		// пробуем загрузить коменты удfленной книги
-		var afterSizeСomments = commentDao.findByBook_Id(id_book).size();
+		var afterSizeComments = commentDao.findByBook_Id(id_book).size();
 
 		// Комментов не должно остаться
-		assertThat(afterSizeСomments).isEqualTo(0);
+		assertThat(afterSizeComments).isEqualTo(0);
 
 	}
 
