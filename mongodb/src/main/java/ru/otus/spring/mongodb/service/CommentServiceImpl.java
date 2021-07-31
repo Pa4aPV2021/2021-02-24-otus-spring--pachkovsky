@@ -41,7 +41,7 @@ public class CommentServiceImpl implements CommentService {
 
 	@Transactional(readOnly = true)
 	@Override
-	public List<Comment> findByBook_Id(String idBook) {
+	public List<Comment> findByBookId(String idBook) {
 		return commentDao.findByBook_Id(idBook);
 	}
 

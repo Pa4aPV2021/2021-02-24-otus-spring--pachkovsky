@@ -32,7 +32,7 @@ public class CommentEventsCommands {
 
 	@ShellMethod(value = "find all comment for book", key = { "facb", "find-all-comment-book" })
 	public List<Comment> findAllForBook(@ShellOption({ "-id_book" }) String idBook) {
-		return commentService.findByBook_Id(idBook);
+		return commentService.findByBookId(idBook);
 	}
 
 	@ShellMethod(value = "delete comment", key = { "dc", "delete-comment" })

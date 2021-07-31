@@ -36,21 +36,24 @@ public class InitMongoDbDataChangeLog {
 		genreDao.save(new Genre("adventures"));
 	}
 
-//	для удовлетворения двунаправленной связи добавил метод addComment, это правильно?
-	@ChangeSet(order = "003", id = "insertBookWithComments", author = "PV", runAlways = true)
-	public void insertBookWithComments(BookDao bookDao, CommentDao commentDao) {
-		var bookTwoWithOneComment = bookDao.save(new Book("bookTwoWithOneComment", tolstoyAuthor, novelGenre));
-		bookTwoWithOneComment.addComment(commentDao.save(new Comment("commentThreeInBookTwo", bookTwoWithOneComment)));
-	}
-
-	@ChangeSet(order = "004", id = "insertCommentsWithBook", author = "PV", runAlways = true)
+	@ChangeSet(order = "003", id = "insertCommentsWithBook", author = "PV", runAlways = true)
 	public void insertCommentsWithBook(BookDao bookDao, CommentDao commentDao) {
+
+		var commentOneInBookOne = commentDao.save(new Comment("commentOneInBookOne"));
+		var commentTwoInBookOne = commentDao.save(new Comment("commentTwoInBookOne"));
+
 		Book bookOneWithTwoComment = new Book("bookOneWithTwoComment", tolstoyAuthor, novelGenre);
-		var commentOneInBookOne = new Comment("commentOneInBookOne");
-		var commentTwoInBookOne = new Comment("commentTwoInBookOne");
-		bookOneWithTwoComment.addComment(commentDao.save(commentOneInBookOne));
-		bookOneWithTwoComment.addComment(commentDao.save(commentTwoInBookOne));
+		bookOneWithTwoComment.addComment(commentOneInBookOne);
+		bookOneWithTwoComment.addComment(commentTwoInBookOne);
 		bookDao.save(bookOneWithTwoComment);
+		commentDao.save(commentOneInBookOne);
+		commentDao.save(commentTwoInBookOne);
+
+		var commentThreeInBookTwo = commentDao.save(new Comment("commentThreeInBookTwo"));
+		var bookTwoWithOneComment = new Book("bookTwoWithOneComment", tolstoyAuthor, novelGenre);
+		bookTwoWithOneComment.addComment(commentThreeInBookTwo);
+		bookDao.save(bookTwoWithOneComment);
+		commentDao.save(commentThreeInBookTwo);
 	}
 
 }

@@ -2,6 +2,7 @@ package ru.otus.spring.mongodb;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import ru.otus.spring.mongodb.dao.BookDao;
 import ru.otus.spring.mongodb.dao.CommentDao;
 import ru.otus.spring.mongodb.events.MongoBookCascadeDeleteEventsListener;
 
+@Disabled
 @DataMongoTest
 @EnableConfigurationProperties
 @ComponentScan({ "ru.otus.spring.mongodb.dao" })
@@ -33,19 +35,19 @@ public class BookRepositoryWithListenerTest {
 	void shouldRemoveCommentsForBookByBookId() {
 
 		// Загрузка книги и сохранение его id
-		val id_book = bookDao.findAll().get(0).getId();
+		val idBook = bookDao.findAll().get(0).getId();
 
 		// Загрузка коментов книги и сохранение их количества
-		var beforeSizeComments = commentDao.findByBook_Id(id_book).size();
+		var beforeSizeComments = commentDao.findByBook_Id(idBook).size();
 
 		// Проверяем есть ли коменты
 		assertThat(beforeSizeComments).isNotEqualTo(0).as("У книги нет комментариев. Продолжение теста невозможно");
 
 		// Удаляем книгу и инициализируем удаление коммента
-		bookDao.deleteById(id_book);
+		bookDao.deleteById(idBook);
 
 		// пробуем загрузить коменты удfленной книги
-		var afterSizeComments = commentDao.findByBook_Id(id_book).size();
+		var afterSizeComments = commentDao.findByBook_Id(idBook).size();
 
 		// Комментов не должно остаться
 		assertThat(afterSizeComments).isEqualTo(0);
