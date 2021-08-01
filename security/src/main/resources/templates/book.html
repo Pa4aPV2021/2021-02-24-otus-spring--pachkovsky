@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>List of all books</title>
+<style type="text/css">
+body {
+	padding: 50px;
+}
+
+.books, .books td {
+	border: 1px solid lightgray;
+	padding: 5px;
+}
+</style>
+</head>
+<body>
+	<h1>Books:</h1>
+
+
+	<a th:href="@{/book/create}" href="create.html">Create new book</a>
+	<table class="books">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Author</th>
+				<th>Genre</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="book : ${books}">
+				<td th:text="${book.id}">1</td>
+				<td th:text="${book.name}">John Doe</td>
+				<td th:text="${book.author.name}">John Doe</td>
+				<td th:text="${book.genre.name}">John Doe</td>
+				<td><a th:href="@{/book/edit(id=${book.id})}" href="edit.html">Edit</a>
+				</td>
+				<td>
+					<form th:action="@{/book/delete(id=${book.id})}" th:method="post">
+						<div class="row">
+							<button type="submit">Delete</button>
+						</div>
+					</form>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<button type="button" id="btn">AJAX CLICK!</button>
+	<table id="book-table-ajax" class="books">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+	<script src="https://yastatic.net/jquery/3.3.1/jquery.min.js"></script>
+	<script
+		src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js'></script>
+	<script src="./script.js"></script>
+	<script>
+	const btn = document.getElementById('btn');
+
+
+	const downloadAndShow = async () => {
+	  const response = await axios.get('/api/books');
+	  response.data.forEach(function (book) {
+			$("#book-table-ajax").children("tbody").append(`
+                  <tr>
+                      <td>${book.id}</td>
+                      <td>${book.name}</td>
+                  </tr>
+              `)
+          });
+	}
+
+	btn.addEventListener('click', downloadAndShow );
+	
+</script>
+
+</body>
+</html>

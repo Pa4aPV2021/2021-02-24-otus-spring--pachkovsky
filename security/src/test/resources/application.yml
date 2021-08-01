@@ -1,0 +1,19 @@
+
+spring:
+  messages:
+    basename: i18n/messages
+  datasource:
+    url: jdbc:h2:mem:testdb
+    data: data-test.sql
+
+  jpa:
+    generate-ddl: false
+    #generate-ddl: true
+    hibernate:
+      ddl-auto: none
+      #ddl-auto: create-drop
+
+    #show-sql: true
+
+
+
