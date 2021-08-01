@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private UserDetailsService userService;
+	private final UserDetailsService userService;
 
 	public SecurityConfig(UserDetailsService userService) {
 		this.userService = userService;
@@ -23,9 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-		.antMatchers("/public").permitAll()
-		.anyRequest()
-		.authenticated()
+		.anyRequest().authenticated()
 		.and()
 		.formLogin().permitAll()
 		.and()

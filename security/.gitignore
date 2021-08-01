@@ -31,3 +31,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+.mvn
+bin
+mvnw
+mvnw.cmd
+spring-shell.log
+../.metadata/
