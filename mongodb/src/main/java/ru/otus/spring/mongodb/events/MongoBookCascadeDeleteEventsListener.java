@@ -1,7 +1,7 @@
 package ru.otus.spring.mongodb.events;
 
 import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventListener;
-import org.springframework.data.mongodb.core.mapping.event.BeforeDeleteEvent;
+import org.springframework.data.mongodb.core.mapping.event.AfterDeleteEvent;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
@@ -14,12 +14,12 @@ public class MongoBookCascadeDeleteEventsListener extends AbstractMongoEventList
 
 	private final BookDao bookDao;
 
-//	@Override
-//	public void onBeforeDelete(BeforeDeleteEvent<Book> event) {
-//		super.onBeforeDelete(event);
-//		var source = event.getSource();
-//		var id = source.get("_id").toString();
-//		bookDao.removeCommentsForBookByBookId(id);
-//	}
+	@Override
+	public void onAfterDelete(AfterDeleteEvent<Book> event) {
+		super.onAfterDelete(event);
+		var source = event.getSource();
+		var id = source.get("_id").toString();
+		bookDao.removeCommentsForBookByBookId(id);
+	}
 
 }

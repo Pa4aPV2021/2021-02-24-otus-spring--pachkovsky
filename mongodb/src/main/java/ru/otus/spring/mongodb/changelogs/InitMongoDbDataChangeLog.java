@@ -1,5 +1,8 @@
 package ru.otus.spring.mongodb.changelogs;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import com.mongodb.client.MongoDatabase;
@@ -18,6 +21,8 @@ public class InitMongoDbDataChangeLog {
 
 	private Author tolstoyAuthor;
 	private Genre novelGenre;
+	private List<Comment> commentsForBookOne;
+	private List<Comment> commentsForBookTwo;
 
 	@ChangeSet(order = "000", id = "dropDB", author = "PV", runAlways = true)
 	public void dropDB(MongoDatabase mongoDatabase) {
@@ -36,24 +41,25 @@ public class InitMongoDbDataChangeLog {
 		genreDao.save(new Genre("adventures"));
 	}
 
-	@ChangeSet(order = "003", id = "insertCommentsWithBook", author = "PV", runAlways = true)
-	public void insertCommentsWithBook(BookDao bookDao, CommentDao commentDao) {
+	@ChangeSet(order = "003", id = "insertComments", author = "PV", runAlways = true)
+	public void insertComments(BookDao bookDao, CommentDao commentDao) {
 
-		var commentOneInBookOne = commentDao.save(new Comment("commentOneInBookOne"));
-		var commentTwoInBookOne = commentDao.save(new Comment("commentTwoInBookOne"));
+		commentsForBookOne = commentDao
+				.saveAll(Arrays.asList(new Comment("commentOneInBookOne"), new Comment("commentTwoInBookOne")));
 
-		Book bookOneWithTwoComment = new Book("bookOneWithTwoComment", tolstoyAuthor, novelGenre);
-		bookOneWithTwoComment.addComment(commentOneInBookOne);
-		bookOneWithTwoComment.addComment(commentTwoInBookOne);
+		commentsForBookTwo = commentDao.saveAll(Arrays.asList(new Comment("commentThreeInBookTwo")));
+	}
+
+	@ChangeSet(order = "004", id = "insertBooksAndUpdateCommentsBookInfo", author = "PV", runAlways = true)
+	public void insertBooksAndUpdateCommentsBookInfo(BookDao bookDao, CommentDao commentDao) {
+
+		var bookOneWithTwoComment = new Book("bookOneWithTwoComment", tolstoyAuthor, novelGenre, commentsForBookOne);
 		bookDao.save(bookOneWithTwoComment);
-		commentDao.save(commentOneInBookOne);
-		commentDao.save(commentTwoInBookOne);
+		commentDao.saveAll(bookOneWithTwoComment.getComments());
 
-		var commentThreeInBookTwo = commentDao.save(new Comment("commentThreeInBookTwo"));
-		var bookTwoWithOneComment = new Book("bookTwoWithOneComment", tolstoyAuthor, novelGenre);
-		bookTwoWithOneComment.addComment(commentThreeInBookTwo);
+		var bookTwoWithOneComment = new Book("bookTwoWithOneComment", tolstoyAuthor, novelGenre, commentsForBookTwo);
 		bookDao.save(bookTwoWithOneComment);
-		commentDao.save(commentThreeInBookTwo);
+		commentDao.saveAll(bookTwoWithOneComment.getComments());
 	}
 
 }

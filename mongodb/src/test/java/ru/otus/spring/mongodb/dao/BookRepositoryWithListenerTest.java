@@ -1,28 +1,18 @@
-package ru.otus.spring.mongodb;
+package ru.otus.spring.mongodb.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
 import lombok.val;
-import ru.otus.spring.mongodb.dao.BookDao;
-import ru.otus.spring.mongodb.dao.CommentDao;
 import ru.otus.spring.mongodb.events.MongoBookCascadeDeleteEventsListener;
 
-@Disabled
-@DataMongoTest
-@EnableConfigurationProperties
-@ComponentScan({ "ru.otus.spring.mongodb.dao" })
 @DisplayName("BookRepository при наличии listener-ов в контексте ")
 @Import(MongoBookCascadeDeleteEventsListener.class)
-public class BookRepositoryWithListenerTest {
+public class BookRepositoryWithListenerTest extends AbstractRepositoryTest {
 
 	@Autowired
 	private BookDao bookDao;

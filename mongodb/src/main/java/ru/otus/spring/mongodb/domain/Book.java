@@ -36,8 +36,7 @@ public class Book {
 		this.name = name;
 		this.author = author;
 		this.genre = genre;
-		this.comments = comments;
-		this.comments.stream().forEach(commente -> commente.getBook().getComments().add(commente));
+		comments.stream().forEach(this::addComment);
 	}
 
 	public Book(String name, Author author, Genre genre) {
