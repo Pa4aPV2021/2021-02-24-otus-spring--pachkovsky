@@ -1,0 +1,12 @@
+spring:
+  messages:
+    basename: i18n/messages
+  shell:
+    interactive:
+      enabled: false 
+  datasource:
+    url: jdbc:h2:mem:testdb
+    data: data-test.sql
+
+language: en
+country: us
