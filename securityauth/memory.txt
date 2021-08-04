@@ -1,0 +1,3 @@
+https://sysout.ru/kak-nastroit-avtorizatsiyu-v-spring-security/
+https://www.baeldung.com/spring_redirect_after_login
+https://www.baeldung.com/role-and-privilege-for-spring-security-registration
