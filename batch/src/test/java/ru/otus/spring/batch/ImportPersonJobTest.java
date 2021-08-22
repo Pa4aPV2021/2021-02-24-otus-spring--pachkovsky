@@ -12,34 +12,34 @@ import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import ru.otus.spring.batch.h2.dao.PersonDao;
+import ru.otus.spring.batch.dao.entity.BookEntityDao;
 
 @SpringBootTest
 @SpringBatchTest
-@DisplayName("ImportPersonJobTest")
+@DisplayName("bookJobTest")
 class ImportPersonJobTest {
 
-	public static final String IMPORT_PERSON_JOB_NAME = "importPersonJob";
+	public static final String BOOK_JOB_NAME = "bookJob";
 
 	@Autowired
 	private JobLauncherTestUtils jobLauncherTestUtils;
 
 	@Autowired
-	private PersonDao personDao;
+	private BookEntityDao bookEntityDao;
 
 	@Test
 	void testJob() throws Exception {
 
-		assertThat(personDao.findAll().size()).isEqualTo(0).as("До миграции есть люди. Продолжение теста невозможно");
+		assertThat(bookEntityDao.findAll().size()).isEqualTo(0).as("До миграции есть книги. Продолжение теста невозможно");
 
 		Job job = jobLauncherTestUtils.getJob();
-		assertThat(job).isNotNull().extracting(Job::getName).isEqualTo(IMPORT_PERSON_JOB_NAME);
+		assertThat(job).isNotNull().extracting(Job::getName).isEqualTo(BOOK_JOB_NAME);
 
 		JobExecution jobExecution = jobLauncherTestUtils.launchJob(new JobParameters());
 
 		assertThat(jobExecution.getExitStatus().getExitCode()).isEqualTo("COMPLETED");
 
-		assertThat(personDao.findAll().size()).isNotEqualTo(0).as("После миграции люди отсутствуют");
+		assertThat(bookEntityDao.findAll().size()).isNotEqualTo(0).as("После миграции книги отсутствуют");
 
 	}
 }

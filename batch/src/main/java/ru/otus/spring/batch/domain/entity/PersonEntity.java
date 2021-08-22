@@ -1,4 +1,4 @@
-package ru.otus.spring.batch.h2.domain;
+package ru.otus.spring.batch.domain.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,12 +7,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Entity
 @Table(name = "persons")
-public class Person {
+public class PersonEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,11 +28,8 @@ public class Person {
 	private String lastName;
 	@Column(name = "first_name")
 	private String firstName;
-	
-	public Person() {
-	}
 
-	public Person(String lastName, String firstName) {
+	public PersonEntity(String lastName, String firstName) {
 		this.lastName = lastName;
 		this.firstName = firstName;
 	}
