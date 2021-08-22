@@ -1,0 +1,26 @@
+spring:
+  batch:
+    job:
+      enabled: false
+  shell:
+    interactive:
+      enabled: true
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:testdb
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+      show-sql: true
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/work
+
+
+mongock:
+  runner-type: InitializingBean
+  change-logs-scan-package:
+  - ru.otus.spring.batch.changelogs
